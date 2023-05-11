@@ -53,6 +53,8 @@ public class BST<K extends Comparable<K>, V> {
             iterRoot.right = new Node(key, val);
         }
 
+        size++;
+
     }
 
     public V get(K key) {
