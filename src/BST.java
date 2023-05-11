@@ -74,7 +74,49 @@ public class BST<K extends Comparable<K>, V> {
     }
 
     public void delete(K key) {
+        if(isEmpty()) return;
 
+        Node iter = root;
+        Node iterRoot = null;
+
+        while(key.compareTo(iter.key) == 0){ //find node to delete and its parent
+            if(key.compareTo(iter.key) < 0){
+                iterRoot = iter;
+                iter = iter.left;
+            }
+            else if(key.compareTo(iter.key) > 0){
+                iterRoot = iter;
+                iter = iter.right;
+            }
+        }
+
+        if(iter.left == null && iter.right == null){ //node to be deleted has no child
+            if(iterRoot.left == iter) iterRoot.left = null; //if the node to be deleted is on the left
+            else iterRoot.right = null;
+        }
+
+        if(iter.left != null && iter.right == null){ //node to be deleted has left child only
+            if(iterRoot.left == iter) iterRoot.left = iter.left;
+            if(iterRoot.right == iter) iterRoot.right = iter.left;
+        }
+
+        if(iter.left == null && iter.right != null){ //node to be deleted has left right only
+            if(iterRoot.left == iter) iterRoot.left = iter.right;
+            if(iterRoot.right == iter) iterRoot.right = iter.right;
+        }
+
+        if(iter.left != null && iter.right != null){ //node to be deleted has two child nodes
+            while (iter.right != null){ //copying the key and value of right child to parent
+                iter.key = iter.right.key;
+                iter.val = iter.right.val;
+                iter = iter.right;
+            }
+            if(iter.left != null){ //if the ending node has child
+                iter = iter.left;
+            }
+            else iter = null;
+        }
+        size--;
     }
 
     public Iterable<K> iterator() {
