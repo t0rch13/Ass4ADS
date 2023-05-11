@@ -57,7 +57,18 @@ public class BST<K extends Comparable<K>, V> {
 
     public V get(K key) {
         Node iter = root;
-
+        while (iter != null){
+            if(key.compareTo(iter.key) < 0){
+                iter = iter.left;
+            }
+            else if(key.compareTo(iter.key) > 0){
+                iter = iter.right;
+            }
+            else if(key.compareTo(iter.key) == 0){ //if the key is found
+                return iter.val;
+            }
+        }
+        return null; //if there is no such key in the tree
     }
 
     public void delete(K key) {
